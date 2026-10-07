@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/authcontext.jsx";
 import { useNavigate, Link } from "react-router";
 import axios from "axios";
+import { API_BASE_URL } from "../config.js";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
         setError("");
 
         try {
-            const response = await axios.post("http://localhost:3000/api/auth/login", { email, password });
+            const response = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password });
             if (response.data.success) {
                 login(response.data.user, response.data.token);
                 if (response.data.user.role === "admin") {

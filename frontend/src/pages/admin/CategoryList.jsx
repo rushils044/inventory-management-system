@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaPlus, FaSearch, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
+import { FaPlus, FaSearch, FaTimes } from "react-icons/fa";
+import { API_BASE_URL } from "../../config.js";
 
 const CategoryList = () => {
     const [categories, setCategories] = useState([]);
@@ -14,7 +15,7 @@ const CategoryList = () => {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/categories", {
+            const res = await axios.get(`${API_BASE_URL}/api/categories`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.data.success) {
@@ -52,11 +53,11 @@ const CategoryList = () => {
         e.preventDefault();
         try {
             if (editingCategory) {
-                await axios.put(`http://localhost:3000/api/categories/${editingCategory._id}`, formData, {
+                await axios.put(`${API_BASE_URL}/api/categories/${editingCategory._id}`, formData, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else {
-                await axios.post("http://localhost:3000/api/categories/add", formData, {
+                await axios.post(`${API_BASE_URL}/api/categories/add`, formData, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             }
@@ -70,7 +71,7 @@ const CategoryList = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this category?")) return;
         try {
-            await axios.delete(`http://localhost:3000/api/categories/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/categories/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchCategories();

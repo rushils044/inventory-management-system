@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaSearch, FaUser, FaCalendarAlt, FaFileCsv, FaPrint, FaTimes } from "react-icons/fa";
+import { API_BASE_URL } from "../../config.js";
 
 const OrderList = () => {
     const [orders, setOrders] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [loading, setLoading] = useState(true);
 
-    // Invoice print modal state
     const [printingOrder, setPrintingOrder] = useState(null);
 
     const token = localStorage.getItem("token");
 
     const fetchOrders = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/orders", {
+            const res = await axios.get(`${API_BASE_URL}/api/orders`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.data.success) {
@@ -34,7 +34,7 @@ const OrderList = () => {
     const handleStatusChange = async (orderId, newStatus) => {
         try {
             await axios.put(
-                `http://localhost:3000/api/orders/${orderId}/status`,
+                `${API_BASE_URL}/api/orders/${orderId}/status`,
                 { status: newStatus },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

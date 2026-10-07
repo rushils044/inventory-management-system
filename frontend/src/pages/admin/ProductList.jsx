@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlus, FaSearch, FaTimes, FaBoxOpen, FaFileCsv } from "react-icons/fa";
+import { API_BASE_URL } from "../../config.js";
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -26,9 +27,9 @@ const ProductList = () => {
     const fetchData = async () => {
         try {
             const [prodRes, catRes, supRes] = await Promise.all([
-                axios.get("http://localhost:3000/api/products", { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get("http://localhost:3000/api/categories", { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get("http://localhost:3000/api/suppliers", { headers: { Authorization: `Bearer ${token}` } })
+                axios.get(`${API_BASE_URL}/api/products`, { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get(`${API_BASE_URL}/api/categories`, { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get(`${API_BASE_URL}/api/suppliers`, { headers: { Authorization: `Bearer ${token}` } })
             ]);
 
             if (prodRes.data.success) setProducts(prodRes.data.products);
@@ -103,11 +104,11 @@ const ProductList = () => {
         e.preventDefault();
         try {
             if (editingProduct) {
-                await axios.put(`http://localhost:3000/api/products/${editingProduct._id}`, formData, {
+                await axios.put(`${API_BASE_URL}/api/products/${editingProduct._id}`, formData, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else {
-                await axios.post("http://localhost:3000/api/products/add", formData, {
+                await axios.post(`${API_BASE_URL}/api/products/add`, formData, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             }
@@ -121,7 +122,7 @@ const ProductList = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this product?")) return;
         try {
-            await axios.delete(`http://localhost:3000/api/products/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/products/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchData();

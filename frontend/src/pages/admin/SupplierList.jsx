@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlus, FaSearch, FaTimes } from "react-icons/fa";
+import { API_BASE_URL } from "../../config.js";
 
 const SupplierList = () => {
     const [suppliers, setSuppliers] = useState([]);
@@ -14,7 +15,7 @@ const SupplierList = () => {
 
     const fetchSuppliers = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/suppliers", {
+            const res = await axios.get(`${API_BASE_URL}/api/suppliers`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.data.success) {
@@ -57,11 +58,11 @@ const SupplierList = () => {
         e.preventDefault();
         try {
             if (editingSupplier) {
-                await axios.put(`http://localhost:3000/api/suppliers/${editingSupplier._id}`, formData, {
+                await axios.put(`${API_BASE_URL}/api/suppliers/${editingSupplier._id}`, formData, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else {
-                await axios.post("http://localhost:3000/api/suppliers/add", formData, {
+                await axios.post(`${API_BASE_URL}/api/suppliers/add`, formData, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             }
@@ -75,7 +76,7 @@ const SupplierList = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this supplier?")) return;
         try {
-            await axios.delete(`http://localhost:3000/api/suppliers/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/suppliers/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchSuppliers();
