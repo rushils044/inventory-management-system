@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlus, FaSearch, FaTimes, FaUserShield, FaUser } from "react-icons/fa";
+import { API_BASE_URL } from "../../config";
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
@@ -13,7 +14,7 @@ const UserList = () => {
 
     const fetchUsers = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/users", {
+            const res = await axios.get(`${API_BASE_URL}/api/users`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.data.success) {
@@ -42,7 +43,7 @@ const UserList = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:3000/api/users/add", formData, {
+            await axios.post(`${API_BASE_URL}/api/users/add`, formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchUsers();
@@ -55,7 +56,7 @@ const UserList = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this user?")) return;
         try {
-            await axios.delete(`http://localhost:3000/api/users/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/users/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchUsers();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPrint, FaTimes } from "react-icons/fa";
+import { API_BASE_URL } from "../../config";
 
 const CustomerOrders = () => {
     const [orders, setOrders] = useState([]);
@@ -11,7 +12,7 @@ const CustomerOrders = () => {
 
     const fetchOrders = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/orders/customer-orders", {
+            const res = await axios.get(`${API_BASE_URL}/api/orders/customer-orders`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.data.success) {

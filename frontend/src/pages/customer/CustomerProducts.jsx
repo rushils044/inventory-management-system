@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTimes, FaCheckCircle } from "react-icons/fa";
+import { API_BASE_URL } from "../../config";
 
 const CustomerProducts = () => {
     const [products, setProducts] = useState([]);
@@ -20,8 +21,8 @@ const CustomerProducts = () => {
     const fetchData = async () => {
         try {
             const [prodRes, catRes] = await Promise.all([
-                axios.get("http://localhost:3000/api/products", { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get("http://localhost:3000/api/categories", { headers: { Authorization: `Bearer ${token}` } })
+                axios.get(`${API_BASE_URL}/api/products`, { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get(`${API_BASE_URL}/api/categories`, { headers: { Authorization: `Bearer ${token}` } })
             ]);
             if (prodRes.data.success) setProducts(prodRes.data.products);
             if (catRes.data.success) setCategories(catRes.data.categories);
@@ -53,7 +54,7 @@ const CustomerProducts = () => {
 
         try {
             const res = await axios.post(
-                "http://localhost:3000/api/orders/create",
+                `${API_BASE_URL}/api/orders/create`,
                 {
                     products: [{ productId: selectedProduct._id, quantity: Number(orderQuantity) }]
                 },

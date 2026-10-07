@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/authcontext.jsx";
 import { useNavigate } from "react-router";
+import { API_BASE_URL } from "../../config";
 import { 
   FaBoxes, 
   FaSearch, 
@@ -32,8 +33,8 @@ const CustomerDashboard = () => {
     const fetchStoreData = async () => {
         try {
             const [prodRes, catRes] = await Promise.all([
-                axios.get("http://localhost:3000/api/products", { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get("http://localhost:3000/api/categories", { headers: { Authorization: `Bearer ${token}` } })
+                axios.get(`${API_BASE_URL}/api/products`, { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get(`${API_BASE_URL}/api/categories`, { headers: { Authorization: `Bearer ${token}` } })
             ]);
             if (prodRes.data.success) {
                 setProducts(prodRes.data.products);
@@ -54,7 +55,7 @@ const CustomerDashboard = () => {
 
     const fetchMyOrders = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/orders/customer-orders", {
+            const res = await axios.get(`${API_BASE_URL}/api/orders/customer-orders`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.data.success) {
@@ -94,7 +95,7 @@ const CustomerDashboard = () => {
 
         try {
             const res = await axios.post(
-                "http://localhost:3000/api/orders/create",
+                `${API_BASE_URL}/api/orders/create`,
                 {
                     products: [{ productId: product._id, quantity: qty }]
                 },
