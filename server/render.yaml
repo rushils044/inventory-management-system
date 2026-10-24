@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: inventory-management-server
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false  # You will set this manually in Render dashboard
+      - key: JWT_SECRET
+        sync: false  # You will set this manually in Render dashboard
+      - key: FRONTEND_URL
+        sync: false  # Set this to your Vercel URL e.g. https://your-app.vercel.app
